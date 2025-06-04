@@ -3,6 +3,8 @@ require "test_helper"
 class MicropostsControllerTest < ActionDispatch::IntegrationTest
   setup do
     @micropost = microposts(:one)
+    @user = users(:one) # Assuming you have a user fixture
+    @micropost.user = @user # Assign a user to the micropost
   end
 
   test "should get index" do
@@ -17,7 +19,12 @@ class MicropostsControllerTest < ActionDispatch::IntegrationTest
 
   test "should create micropost" do
     assert_difference("Micropost.count") do
-      post microposts_url, params: { micropost: { content: @micropost.content, user_id: @micropost.user_id } }
+      post microposts_url, params: {
+        micropost: {
+          content: "New unique content #{SecureRandom.hex(3)}",
+          user_id: @micropost.user_id
+        }
+      }
     end
 
     assert_redirected_to micropost_url(Micropost.last)
