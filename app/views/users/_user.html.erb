@@ -9,4 +9,11 @@
     <%= user.email %>
   </p>
 
+  <ul>
+    <% user.microposts.each do |micropost| %>
+      <li><%= micropost.content %></li>
+      <%= link_to "Xem chi tiết", micropost_path(micropost), class: "btn btn-sm btn-primary" %>
+    <% end %>
+  </ul>
+
 </div>
